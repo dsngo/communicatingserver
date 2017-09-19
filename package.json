@@ -1,0 +1,7 @@
+{
+  "name": "communicatingserver",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Daniel <daniel.dungngo@gmail.com>",
+  "license": "MIT"
+}
