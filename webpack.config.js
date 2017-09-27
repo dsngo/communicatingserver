@@ -1,15 +1,26 @@
 const { join } = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const fs = require('fs');
 
 // Initial configurations
 const PATH = {
     dist: join(__dirname, "dist"),
     src: join(__dirname, "src"),
     root: join(__dirname, ""),
-    nodeModules: join(__dirname, "node_modules"),
 };
-const developmentPort = 8080;
+
+let nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter(function(x) {
+    return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function(mod) {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
+
+const developmentPort = 4000;
 
 function defineDevtool(num) {
     switch (num) {
@@ -61,6 +72,7 @@ module.exports = (env = {}) => {
             contentBase: join(__dirname, "dist"),
             // https: true,
         },
+        externals: nodeModules,
         resolve: { extensions },
         module: {
             rules: [
@@ -86,7 +98,7 @@ module.exports = (env = {}) => {
     };
     // Webpack configurations
     if(!env.prod) {
-        tsBundleConfig.entry.main.unshift(`webpack-dev-server/client?http://localhost:${developmentPort}/`);
+        tsBundleConfig.entry.index.unshift(`webpack-dev-server/client?http://localhost:${developmentPort}/`);
     }
     if (env.prod) {
         delete tsBundleConfig.devtool;
@@ -95,7 +107,7 @@ module.exports = (env = {}) => {
         tsBundleConfig.watch = false;
         tsBundleConfig.output = {
             path: PATH.dist,
-            filename: "dist/[name].js",
+            filename: "[name].js",
             publicPath: "/",
         };
         tsBundleConfig.stats = "normal";

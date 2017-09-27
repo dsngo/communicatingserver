@@ -3,6 +3,7 @@ import MgConfig from "../controllers/MgConfig";
 
 const SurveySchema = new Schema({
     title: String,
+    description: String,
     author: {
         id: {
             type: SchemaTypes.ObjectId,
@@ -13,6 +14,6 @@ const SurveySchema = new Schema({
     content: SchemaTypes.Mixed,
 });
 
-const Survey = model("Survey", SurveySchema);
+const SurveyModel = model("Survey", SurveySchema);
 
-export default Survey;
+export default SurveyModel;

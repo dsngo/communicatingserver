@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "prebuild:p": "find dist/* -exec rm -rf {} +",
     "build:p": "SET NODE_ENV=production& webpack -p --progress --env.prod",
     "dev": "webpack-dev-server",
     "lint": "tslint -p . --type-check -t stylish",
@@ -33,8 +32,10 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "babel-preset-es2015-webpack": "^6.4.3",
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
+    "extract-text-webpack-plugin": "^3.0.0",
     "method-override": "^2.3.9",
     "mongoose": "^4.11.12"
   }
