@@ -47,13 +47,29 @@ export default class Survey {
     }
 
     static async getById(req: Request, res:Response) {
-        let id = req.params.id;
-        let survey = await SurveyModel.findById(id);
-        res.status(200).send({
-            code: 0,
-            message: "success",
-            data: survey
-        })        
+        try {
+            let id = req.params.id;
+            console.log('get by id');
+            
+            let survey = await SurveyModel.findById(id);
+            if (!survey) {
+                res.status(200).send({
+                    code: -1,
+                    message: "Survey not found"
+                })
+            }
+            res.status(200).send({
+                code: 0,
+                message: "success",
+                data: survey
+            })  
+        } catch (e) {
+            res.status(200).send({
+                code: -4,
+                message: e.data
+            })
+        }
+              
     }
     static async list(req: Request, res: Response) {
         let surveys = await SurveyModel.find({}).exec();

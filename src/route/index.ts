@@ -7,7 +7,7 @@ router.get("/initDB", Survey.initDB);
 router.get("/survey", Survey.list);
 router.post("/survey/create", Survey.create);
 router.get("/survey/clearDB", Survey.clearDB);
-router.get("/survey/:id", Survey.getById);
+router.get("/survey/get/:id", Survey.getById);
 
 router.get("/test", function(req:any, res:any) {
     res.json({
