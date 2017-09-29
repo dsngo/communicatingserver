@@ -12,6 +12,7 @@ const SurveySchema = new Schema({
         username: String,
     },
     content: SchemaTypes.Mixed,
+    status: String
 });
 
 const SurveyModel = model("Survey", SurveySchema);
