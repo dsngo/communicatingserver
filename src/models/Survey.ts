@@ -1,5 +1,4 @@
 import { Schema, SchemaTypes, model } from "mongoose";
-import MgConfig from "../controllers/MgConfig";
 
 const SurveySchema = new Schema({
     title: String,
@@ -12,9 +11,22 @@ const SurveySchema = new Schema({
         username: String,
     },
     content: SchemaTypes.Mixed,
-    status: String
+    completed: Boolean // true: To enable client survey form.
 });
 
 const SurveyModel = model("Survey", SurveySchema);
 
-export default SurveyModel;
+
+const ClientSurveySchema = new Schema({
+    survey_id: {
+        type: SchemaTypes.ObjectId,
+        ref: "Survey",
+    },
+    content: SchemaTypes.Mixed,
+    completed: Boolean // true/false: false for editing, true to submit form
+});
+
+const ClientSurveyModel = model("ClientSurvey", ClientSurveySchema);
+
+export {ClientSurveyModel, SurveyModel };
+
