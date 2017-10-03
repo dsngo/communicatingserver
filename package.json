@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "build:p": "SET NODE_ENV=production& webpack -p --progress --env.prod",
-    "dev": "webpack-dev-server",
+    "build": "SET NODE_ENV=production& webpack -p --progress --env.prod",
     "lint": "tslint -p . --type-check -t stylish",
     "g:commit": "git add . & git commit -m ",
     "mongod": "C:\\\"Program Files\"\\MongoDB\\Server\\3.4\\bin\\mongod.exe --dbpath D:\\WebDev\\mongodb",
@@ -20,7 +19,6 @@
     "@types/mongoose": "^4.7.21",
     "@types/node": "^8.0.28",
     "@types/webpack": "^3.0.10",
-    "@types/webpack-dev-server": "^2.4.1",
     "awesome-typescript-loader": "^3.2.3",
     "tslib": "^1.7.1",
     "tslint": "^5.7.0",
@@ -28,14 +26,11 @@
     "tslint-config-prettier": "^1.5.0",
     "typescript": "^2.5.2",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "babel-preset-es2015-webpack": "^6.4.3",
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
-    "extract-text-webpack-plugin": "^3.0.0",
     "method-override": "^2.3.9",
     "mongoose": "^4.11.12"
   }

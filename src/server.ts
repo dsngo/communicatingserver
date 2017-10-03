@@ -1,45 +1,26 @@
 import * as express from "express";
 import * as mongoose from "mongoose";
 import methodOverride from "method-override";
-const surveyRouter = require("./routes/survey");
-const clientSurveyRouter = require("./routes/clientSurvey");
-const testRouter = require("./routes/test");
+import MgConfig from "./controllers/MgConfig";
+import { customCORS } from "./controllers/headerController";
+import routeSurvey from "./routes/routeSurvey"
+import routeClientSurvey from "./routes/routeClientSurvey"
+import routeTest from "./routes/routeTest"
+
 const app: express.Application = express();
 
-
+MgConfig.mgConnect();
 
 const sPORT: any = process.env.PORT || 3000;
 const sIP: any = process.env.IP;
 const sLog = () => console.log(`Server is listening... ${sIP || "localhost"}:${sPORT}`); // tslint:disable-line
 
-const options = {
-    server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-    replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-};
-
-const mongodbURI = "mongodb://localhost/form_database";
-
-
-const dbConfig = () => {
-    mongoose.connect(mongodbURI, options);
-    (<any>mongoose).Promise = global.Promise;
-};
-dbConfig();
-
-
-// Config cross origin 
-app.use(acceptCors);
+// ADD HEADER
+app.use(customCORS);
 
 // USE ROUTES
-app.use("/survey", surveyRouter);
-app.use("/client-survey", clientSurveyRouter);
-app.use("/test", testRouter);
+app.use("/survey", routeSurvey);
+app.use("/client-survey", routeClientSurvey);
+app.use("/test", routeTest);
 
 app.listen(sPORT, sIP, sLog);
-
-
-function acceptCors(req: any, res: any, next: any) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-}

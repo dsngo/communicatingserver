@@ -11,22 +11,23 @@ const SurveySchema = new Schema({
         username: String,
     },
     content: SchemaTypes.Mixed,
-    completed: Boolean // true: To enable client survey form.
+    completed: Boolean, // true: To enable client survey form.
 });
 
 const SurveyModel = model("Survey", SurveySchema);
 
-
 const ClientSurveySchema = new Schema({
-    survey_id: {
-        type: SchemaTypes.ObjectId,
-        ref: "Survey",
+    author: {
+        id: {
+            type: SchemaTypes.ObjectId,
+            ref: "User",
+        },
+        username: String,
     },
     content: SchemaTypes.Mixed,
-    completed: Boolean // true/false: false for editing, true to submit form
+    completed: Boolean, // true/false: false for editing, true to submit form
 });
 
 const ClientSurveyModel = model("ClientSurvey", ClientSurveySchema);
 
-export {ClientSurveyModel, SurveyModel };
-
+export { ClientSurveyModel, SurveyModel };
