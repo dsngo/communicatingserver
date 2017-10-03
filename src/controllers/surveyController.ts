@@ -72,7 +72,7 @@ export default class SurveyController {
             description,
             content: JSON.stringify(content),
             author: "son",
-            status: action,
+            completed: action === "save" ? false : true,
         };
         let resSurvey;
         if (!req.body.id) {
@@ -94,29 +94,6 @@ export default class SurveyController {
         }
     }
 
-    static async createClientSurveyForm(req: Request, res: Response) {
-        const { title, description } = req.body.info;
-        const { content } = req.body;
-        const newSurvey = {
-            title,
-            description,
-            content: JSON.stringify(content),
-            author: "son",
-        };
-        const createdSurvey = await SurveyModel.create(newSurvey);
-        if (!createdSurvey) {
-            res.status(200).send({
-                code: 1,
-                message: "Error",
-            });
-        } else {
-            res.status(200).send({
-                code: 0,
-                message: "SUCCESS",
-                data: createdSurvey,
-            });
-        }
-    }
     // TEST
     static async getAllSubmittedClientSurveyForms(req: Request, res: Response) {
         try {
@@ -148,7 +125,7 @@ export default class SurveyController {
         }
     }
     // END OF TEST
-    static async submitSurvey(req: Request, res: Response) {
+    static async submitClientSurvey(req: Request, res: Response) {
         try {
             const response = req.body.question;
             const survey_id = req.body.survey_id;
@@ -156,7 +133,7 @@ export default class SurveyController {
             survey = await SurveyModel.findById(survey_id);
             const newResponse = new ClientSurveyModel({
                 content: JSON.stringify(response),
-                status: "active",
+                completed: true,
                 survey_id: survey._id,
             });
             const responseCreated = await ClientSurveyModel.create(newResponse);
@@ -191,6 +168,30 @@ export default class SurveyController {
                 code: -1,
                 message: e.message,
             });
+        }
+    }
+    static async updateClientSurvey(req: Request, res: Response) {
+        try {
+            const id = req.params.id;
+            const clientSurvey = req.params.body;
+            console.log(clientSurvey);
+            
+            const updatedClientSurvey = await ClientSurveyModel.update({ _id : id }, clientSurvey);
+            if (!updatedClientSurvey) res.status(200).send({
+                code: 1,
+                message: "Error"
+            })
+            else {
+                res.status(200).send({
+                    code: 0,
+                    data: updatedClientSurvey
+                })
+            }
+        } catch (e) {
+            res.status(200).send({
+                code: -1,
+                message: e.message
+            })
         }
     }
 }

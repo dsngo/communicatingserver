@@ -11,4 +11,7 @@ const routeSurvey = require("express").Router();
 // CREATE
     routeSurvey.post("/", jsonParser, SurveyController.createSurveyForm);
 
+// UPDATE 
+    routeSurvey.put("/:id", jsonParser, SurveyController.updateClientSurvey)
+
 export default routeSurvey;

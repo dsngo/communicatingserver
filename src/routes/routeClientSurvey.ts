@@ -9,6 +9,6 @@ const routeClientSurvey = require("express").Router();
     routeClientSurvey.get("/:id", SurveyController.getClientSurveyFormById);
 
 // CREATE
-    routeClientSurvey.post("/", jsonParser, SurveyController.createClientSurveyForm);
+    routeClientSurvey.post("/", jsonParser, SurveyController.submitClientSurvey);
 
 export default routeClientSurvey;
