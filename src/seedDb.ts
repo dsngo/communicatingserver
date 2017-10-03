@@ -1,25 +1,68 @@
 import MgConfig from "./controllers/MgConfig";
 import { SurveyModel } from "./models/Survey";
 
+/** questionTypes
+ * 1 = Long question
+ * 2 = Short question
+ * 3 = Checkbox
+ * 4 = Multiple choices
+ * 5 = Dropdown
+ */
+
 const data = [
     {
-        title: "SURVEY1",
-        content: { question1: "mot hai ba", question2: "ba bon nam" },
+        title: "SURVEY2",
+        content: [
+            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        ],
         author: { username: "Daniel" },
     },
     {
         title: "SURVEY2",
-        content: { question1: "mot hai ba bon", question2: "ba bon nam sau" },
-        author: { username: "Michelle" },
+        content: [
+            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        ],
+        author: { username: "Daniel" },
     },
     {
         title: "SURVEY3",
-        content: { question1: "mot hai ba bon", question2: "ba bon nam sau" },
-        author: { username: "Michelle" },
+        content: [
+            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        ],
+        author: { username: "Daniel" },
     },
     {
         title: "SURVEY4",
-        content: { question1: "mot hai ba bon", question2: "ba bon nam sau" },
+        content: [
+            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        ],
+        author: { username: "Daniel" },
+    },
+    {
+        title: "SURVEY5",
+        content: [
+            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
+            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        ],
         author: { username: "Daniel" },
     },
 ];
