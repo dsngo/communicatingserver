@@ -10,7 +10,9 @@ const SurveySchema = new Schema({
         },
         username: String,
     },
-    content: SchemaTypes.Mixed,
+    sectionBreaks: [SchemaTypes.Mixed],
+    contents: [SchemaTypes.Mixed],
+    isDeleted: Boolean,
     completed: Boolean, // true: To enable client survey form.
 });
 
@@ -24,7 +26,15 @@ const ClientSurveySchema = new Schema({
         },
         username: String,
     },
-    content: SchemaTypes.Mixed,
+    userInfo: {
+        firstName: String,
+        lastName: String,
+        email: String,
+        phone: Number,
+        address: String,
+        gender: String,
+    },
+    contents: [SchemaTypes.Mixed],
     completed: Boolean, // true/false: false for editing, true to submit form
 });
 
