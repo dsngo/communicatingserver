@@ -7,9 +7,11 @@ const jsonParser = require("express").json();
     // ALL
     routeClientSurvey.get("/", SurveyController.getAllSubmittedClientSurveyForms); // Get all responses from all surveys.
     // BY ID
-    routeClientSurvey.get("clientSurveyId", SurveyController.getClientSurveyFormById);
+    routeClientSurvey.get("/:clientSurveyId", SurveyController.getClientSurveyFormById);
 
 // CREATE
     routeClientSurvey.post("/", jsonParser, SurveyController.submitClientSurvey);
+// UPDATE
+    routeClientSurvey.put("/:clientSurveyId", jsonParser, SurveyController.submitClientSurvey);
 
 export default routeClientSurvey;

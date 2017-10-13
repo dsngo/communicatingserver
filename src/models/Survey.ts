@@ -26,7 +26,7 @@ const ClientSurveySchema = new Schema({
         },
         username: String,
     },
-    userInfo: {
+    clientInfo: {
         firstName: String,
         lastName: String,
         email: String,

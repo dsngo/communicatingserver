@@ -125,26 +125,20 @@ export default class SurveyController {
   // END OF TEST
   static async submitClientSurvey(req: Request, res: Response) {
     try {
-      const response = req.body.question;
-      const survey_id = req.body.survey_id;
-      let survey: any;
-      survey = await SurveyModel.findById(survey_id);
-      const newResponse = new ClientSurveyModel({
-        content: JSON.stringify(response),
-        completed: true,
-        survey_id: survey._id,
-      });
-      const responseCreated = await ClientSurveyModel.create(newResponse);
-      if (!responseCreated)
-        res.status(200).send({
-          code: 1,
-          message: "Error",
-        });
-      else
+      const { clientSurveyId, ...clientSurveyData } = req.body;
+      if (clientSurveyId) {
+        await SurveyModel.findByIdAndUpdate(clientSurveyId, clientSurveyData);
         res.status(200).send({
           code: 0,
-          message: "Create Success",
+          message: "Update Client Survey Success",
         });
+      } else {
+        const responseCreated = await ClientSurveyModel.create(clientSurveyData);
+        res.status(200).send({
+          code: 0,
+          message: "Create Client Survey Success",
+        });
+      }
     } catch (e) {
       res.status(500).send({
         code: -1,
@@ -160,7 +154,7 @@ export default class SurveyController {
       res.status(200).send({
         code: 0,
         data: foundClientSurvey,
-        message: "Found Client Survey"
+        message: "Found Client Survey",
       });
     } catch (e) {
       res.status(500).send({
@@ -169,16 +163,15 @@ export default class SurveyController {
       });
     }
   }
-  static async updateClientSurvey(req: Request, res: Response) {
+  static async updateSurveyForm(req: Request, res: Response) {
     try {
       const formId = req.params.formId;
-      const clientSurvey = req.params.body;
-      console.log(clientSurvey);
-      const updatedClientSurvey = await ClientSurveyModel.update({ _id: formId }, clientSurvey);
+      const surveyForm = req.body;
+      console.log(surveyForm);
+      await SurveyModel.findByIdAndUpdate(formId, surveyForm);
       res.status(200).send({
         code: 0,
-        data: updatedClientSurvey,
-        message: "Update Success",
+        message: "Update Survey Form Success",
       });
     } catch (e) {
       res.status(200).send({

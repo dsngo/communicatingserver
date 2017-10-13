@@ -6,7 +6,7 @@ const routeSurvey = require("express").Router();
     // ALL
     routeSurvey.get("/", SurveyController.getAllSurveyForms);
     // BY ID
-    routeSurvey.get("clientSurveyId", SurveyController.getSurveyFormById);
+    routeSurvey.get("/:formId", SurveyController.getSurveyFormById);
     // RECENTS
     routeSurvey.get("/recent-forms", SurveyController.getAllRecentForms)
 
@@ -14,6 +14,6 @@ const routeSurvey = require("express").Router();
     routeSurvey.post("/", jsonParser, SurveyController.createSurveyForm);
 
 // UPDATE 
-    routeSurvey.put("clientSurveyId", jsonParser, SurveyController.updateClientSurvey)
+    routeSurvey.put("/:formId", jsonParser, SurveyController.updateSurveyForm)
 
 export default routeSurvey;
