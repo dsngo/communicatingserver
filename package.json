@@ -8,8 +8,10 @@
     "start": "node dist/index.js",
     "lint": "tslint -p . --type-check -t stylish",
     "g:commit": "git add . & git commit -m ",
+    "g:push": "git pull & git push origin son-dev",
     "g:log": "git log --pretty=format:\"%h - %an, %ar : %s\"",
     "watch": "SET NODE_ENV=production& webpack -w -p --progress --env.prod",
+    "build": "SET NODE_ENV=production& webpack -p --progress --env.prod",
     "dev": "yarn start",
     "mongod": "C:\\\"Program Files\"\\MongoDB\\Server\\3.4\\bin\\mongod.exe --dbpath D:\\WebDev\\mongodb",
     "mongo": "C:\\\"Program Files\"\\MongoDB\\Server\\3.4\\bin\\mongo.exe"
