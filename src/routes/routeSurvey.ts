@@ -6,7 +6,7 @@ const routeSurvey = require("express").Router();
     // ALL
     routeSurvey.get("/", SurveyController.getAllSurveyForms);
     // LIMIT BY 3 FOR INDEX PAGE
-    routeSurvey.get("/index", SurveyController.getSurveyFormsIndexPage)
+    // routeSurvey.get("/index", SurveyController.getSurveyFormsIndexPage)
     // BY ID
     routeSurvey.get("/:formId", SurveyController.getSurveyFormById);
     // RECENTS
