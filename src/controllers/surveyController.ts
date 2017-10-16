@@ -62,7 +62,7 @@ export default class SurveyController {
         title: e.title,
         formId: e._id,
         completed: e.completed,
-        createdDate: e._id.getTimeStamp(),
+        createdDate: e._id.getTimestamp(),
       }));
       rs.status(200).send({
         code: 0,
