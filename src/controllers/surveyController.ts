@@ -64,6 +64,22 @@ export default class SurveyController {
         }
     }
 
+    static async getSurveyFormsIndexPage (req: Request, res: Response) {
+        try {
+            const surveys = await SurveyModel.find({}).limit(3);
+            res.status(200).send({
+                code: 0,
+                data: surveys
+            })
+        } catch (e) {
+            res.status(200).send({
+                code: -4,
+                error: e.message
+            })
+        }
+        
+    }
+
     static async createSurveyForm(req: Request, res: Response) {
         const { title, description, action } = req.body.info;
         const { content } = req.body;
