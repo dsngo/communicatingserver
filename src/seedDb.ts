@@ -1,67 +1,109 @@
 import MgConfig from "./controllers/MgConfig";
 import { SurveyModel } from "./models/Survey";
+import {
+    ILongQuestion,
+    IShortQuestion,
+    IMultipleChoices,
+    IMultipleDropdown,
+    ICheckBox,
+    IDropdown,
+    IPriorityQuestion,
+} from "./customTypes";
 
 /** questionTypes
- * 1 = Long question
- * 2 = Short question
- * 3 = Checkbox
- * 4 = Multiple choices
- * 5 = Dropdown
+ * "longQuestion" = Long question
+ * "shortQuestion" = Short question
+ * "checkbox" = Checkbox
+ * "multipleChoices" = Multiple choices
+ * "dropdown" = Dropdown
+ * "multipleDropdown" = Multiple Dropdown
+ * "priorityQuestion" = Question with priority
  */
+
+// interface IData {
+//     title: string;
+//     contents: (
+//         | ILongQuestion
+//         | IShortQuestion
+//         | IMultipleChoices
+//         | IMultipleDropdown
+//         | ICheckBox
+//         | IDropdown
+//         | IPriorityQuestion)[];
+//     author: { username: string };
+// }
 
 const data = [
     {
         title: "SURVEY2",
-        content: [
-            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-        ],
-        author: { username: "Daniel" },
-    },
-    {
-        title: "SURVEY2",
-        content: [
-            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-        ],
-        author: { username: "Daniel" },
-    },
-    {
-        title: "SURVEY3",
-        content: [
-            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-        ],
-        author: { username: "Daniel" },
-    },
-    {
-        title: "SURVEY4",
-        content: [
-            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-        ],
-        author: { username: "Daniel" },
-    },
-    {
-        title: "SURVEY5",
-        content: [
-            { questionType: 1, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 2, question: "mot hai ba?", answer: ["ba bon nam"] },
-            { questionType: 3, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 4, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
-            { questionType: 5, question: "mot hai ba?", answer: ["ba bon nam", "bon nam sau", "bay tam chin", " nam sau bay"] },
+        contents: [
+            { questionType: "longQuestion", question: "mot hai ba?", answers: ["ba bon nam"] },
+            { questionType: "shortQuestion", question: "mot hai ba?", answers: ["ba bon nam"] },
+            {
+                questionType: "checkbox",
+                question: "mot hai ba?",
+                answers: ["ba bon nam", "bon nam sau", "bay tam chin", "nam sau bay", "SAU BAY TAM", "BAY BAY ABY"],
+            },
+            {
+                questionType: "multipleChoices",
+                question: "mot hai ba?",
+                answers: [
+                    { correct: false, answer: "false" },
+                    { correct: true, answer: "true" },
+                    { correct: false, answer: "false" },
+                    { correct: false, answer: "false" },
+                    { correct: false, answer: "false" },
+                ],
+            },
+            {
+                questionType: "multipleDropdown",
+                questions: [
+                    { id: 1, question: "main question" },
+                    { id: 2, question: "additional question" },
+                    { id: 3, question: "additional question" },
+                ],
+                answers: [
+                    {
+                        answerId: 1,
+                        contents: [
+                            { id: 1, answer: ["answer 1"] },
+                            { id: 2, answer: ["option 1", "option 2", "option 3"] },
+                            { id: 3, answer: ["option 1", "option 2", "option 3"] },
+                        ],
+                    },
+                    {
+                        answerId: 2,
+                        contents: [
+                            { id: 1, answer: ["answer 2"] },
+                            { id: 2, answer: ["option 1", "option 2", "option 3"] },
+                            { id: 3, answer: ["option 1", "option 2", "option 3"] },
+                        ],
+                    },
+                ],
+            },
+            {
+                questionType: "priorityQuestion",
+                question: "mot hai ba?",
+                answers: [{ priority: 1, answer: "mot" }, { priority: 2, answer: "hai" }, { priority: 3, answer: "ba" }],
+                additionalContents: [
+                    {
+                        description: "description 1",
+                        contents: [
+                            { question: "question 1", answer: "answer 1" },
+                            { question: "question 2", answer: "answer 2" },
+                            { question: "question 3", answer: "answer 3" },
+                        ],
+                    },
+                    {
+                        description: "description 2",
+                        contents: [
+                            { question: "question 1", answer: "answer 1" },
+                            { question: "question 2", answer: "answer 2" },
+                            { question: "question 3", answer: "answer 3" },
+                        ],
+                    },
+                ],
+            },
         ],
         author: { username: "Daniel" },
     },

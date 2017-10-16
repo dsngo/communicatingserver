@@ -7,14 +7,13 @@ import routeSurvey from "./routes/routeSurvey"
 import routeClientSurvey from "./routes/routeClientSurvey"
 import routeTest from "./routes/routeTest"
 
-const app: express.Application = express();
-
-MgConfig.mgConnect();
-
 const sPORT: any = process.env.PORT || 3000;
 const sIP: any = process.env.IP;
 const sLog = () => console.log(`Server is listening... ${sIP || "localhost"}:${sPORT}`); // tslint:disable-line
 
+const app: express.Application = express();
+// Connect to Database
+MgConfig.mgConnect();
 // ADD HEADER
 app.use(customCORS);
 
