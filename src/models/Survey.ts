@@ -34,6 +34,7 @@ const ClientSurveySchema = new Schema({
         address: String,
         gender: String,
     },
+    surveyId: String,
     contents: [SchemaTypes.Mixed],
     completed: Boolean, // true/false: false for editing, true to submit form
 });
