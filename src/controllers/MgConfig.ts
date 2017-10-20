@@ -14,4 +14,8 @@ export default class MgConfig {
         (mongoose as any).Promise = promise;
         mongoose.connect(Controller.mongodbURI, Controller.options);
     }
+
+    static getTime(objectIdString: string): mongoose.Types.ObjectId {
+        return mongoose.Types.ObjectId(objectIdString)
+    }
 }
