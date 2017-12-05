@@ -23,7 +23,7 @@ app.use("/client-survey", routeClientSurvey);
 app.use("/test", routeTest);
 
 app.get("/", (rq, rs) =>
-  rs.send("This is a node JS server for api fetching. Nothing too interesting here. If you are interest go to fb.com/DanielDNgo"),
+  rs.send("This is a node JS server for api fetching. Nothing too interesting here. If you are interest go to fb.com/DanielDNgo. PS: Im coool!"),
 );
 
 app.listen(sPORT, sIP, sLog);
