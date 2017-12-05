@@ -1,4 +1,1 @@
-Promise { <pending> }
-Promise { <pending> }
-Promise { <pending> }
 [{"_id":"59f015dd94bdd03bf850b1ce","completed":true,"surveyId":"59f015a194bdd03bf850b1cd","__v":0,"contents":[{"questionType":"checkbox","question":"QUestion 2","description":"","answers":[{"correct":false,"text":"Check 1","chosen":false},{"correct":false,"text":"Check 2","chosen":true},{"correct":false,"text":"Check 3","chosen":false}],"completed":false},{"questionType":"dropdown","question":"Question 3","description":"","answers":[{"correct":false,"answer":"One","chosen":true},{"chosen":false,"correct":false,"answer":"Two"},{"chosen":false,"correct":false,"answer":"Three"}],"completed":false},{"questionType":"longQuestion","question":"Long QUestion","description":"Long Description","answers":["asdfasdfasdgasdfasdgasdfasdgasdf"],"completed":false}]}]
