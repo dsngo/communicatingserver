@@ -31,4 +31,4 @@ app.get("/", (rq, rs) =>
 );
 // console.log(process.env.PORT);
 
-app.listen(PORT, LOG);
+app.listen(PORT, IP, LOG);
