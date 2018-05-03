@@ -33,4 +33,4 @@ console.log(process.env)
 console.log(PORT, process.env.PORT);
 console.log(IP, process.env.IP);
 
-app.listen(PORT, LOG);
+app.listen(process.env.PORT || 3000, LOG);
