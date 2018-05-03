@@ -53,7 +53,7 @@ const OrderSchema = new Schema({
   ],
   orderStatus: String,
 });
-
+//  okay
 const OrderModel = model("Order", OrderSchema);
 
 export { ProductModel, OrderModel, UserModel };
