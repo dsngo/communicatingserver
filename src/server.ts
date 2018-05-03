@@ -29,6 +29,6 @@ app.get("/", (rq, rs) =>
     "This is a node JS server for api fetching. Nothing too interesting here. If you are interest go to fb.com/DanielDNgo. PS: Im coool!",
   ),
 );
-// console.log(process.env.PORT);
+console.log("port", process.env.PORT);
 
 app.listen(PORT, IP, LOG);
