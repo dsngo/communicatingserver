@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "heroku-postbuild": "NODE_ENV=production& webpack -p --progress --env.production",
+    "heroku-postbuild": "webpack -p --progress --env.production",
     "deploy": "git add . & git commit -am \"heroku deploy\" & git push heroku master & heroku open",
     "lint": "tslint -p . --type-check -t stylish",
     "g:commit": "git add . & git commit -m ",
