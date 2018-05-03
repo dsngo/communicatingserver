@@ -11,29 +11,6 @@ import {
 } from "./customTypes";
 
 
-/** questionTypes
- * "longQuestion" = Long question
- * "shortQuestion" = Short question
- * "checkbox" = Checkbox
- * "multipleChoices" = Multiple choices
- * "dropdown" = Dropdown
- * "multipleDropdown" = Multiple Dropdown
- * "priorityQuestion" = Question with priority
- */
-
-// interface IData {
-//     title: string;
-//     contents: (
-//         | ILongQuestion
-//         | IShortQuestion
-//         | IMultipleChoices
-//         | IMultipleDropdown
-//         | ICheckBox
-//         | IDropdown
-//         | IPriorityQuestion)[];
-//     author: { username: string };
-// }
-
 const data = [
     {
         title: "SURVEY2",
