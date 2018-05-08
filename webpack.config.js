@@ -21,6 +21,7 @@ module.exports = (env = {}) => {
   const extensions = [".ts", ".tsx", ".css", ".scss", ".js", ".json"];
   // Typescript compiling configurations
   const tsBundleConfig = {
+    target: "node", //IMPORTANT TO PRESERVE PROCESS.ENV VARIABLES
     context: PATH.root,
     entry: {
       index: ["./src/server"],
@@ -61,11 +62,6 @@ module.exports = (env = {}) => {
       publicPath: "/",
     };
     tsBundleConfig.stats = "normal";
-    tsBundleConfig.plugins = [
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": '"production"',
-      }),
-    ];
   }
   const config = [tsBundleConfig];
   return config;
