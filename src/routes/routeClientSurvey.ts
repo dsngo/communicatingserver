@@ -1,17 +1,16 @@
 import SurveyController from "../controllers/surveyController";
-// import { jsonParser } from "../middlewares/bodyParser";
 const routeClientSurvey = require("express").Router();
 const jsonParser = require("express").json();
 
 // READ
-    // ALL
-    routeClientSurvey.get("/", SurveyController.getAllSubmittedClientSurveyForms); // Get all responses from all surveys.
-    // BY ID
-    routeClientSurvey.get("/:clientSurveyId", SurveyController.getClientSurveyFormById);
+routeClientSurvey
+  .route("/")
+  .get(SurveyController.getAllSubmittedClientSurveyForms)
+  .post(jsonParser, SurveyController.submitClientSurvey);
 
-// CREATE
-    routeClientSurvey.post("/", jsonParser, SurveyController.submitClientSurvey);
-// UPDATE
-    routeClientSurvey.put("/:clientSurveyId", jsonParser, SurveyController.submitClientSurvey);
+routeClientSurvey
+  .route("/:clientSurveyId")
+  .get(SurveyController.getClientSurveyFormById)
+  .put(jsonParser, SurveyController.submitClientSurvey);
 
 export default routeClientSurvey;
