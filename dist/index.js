@@ -21,7 +21,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2a76a539a8490ed02047"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "56cb852b45f8d50e68aa"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -902,7 +902,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = __webpack_require__(/*! mongoose */ "mongoose");
 var MgConfig = /** @class */ (function () {
     function MgConfig(mongodbURI, options) {
-        if (mongodbURI === void 0) { mongodbURI = "mongodb://peakvnadmin:peakvn123@ds147659.mlab.com:47659/peak-vn"; }
+        if (mongodbURI === void 0) { mongodbURI = "mongodb://admin:admin123@ds129776.mlab.com:29776/form_database"; }
         if (options === void 0) { options = {
             keepAlive: 300000,
             connectTimeoutMS: 30000,
@@ -989,13 +989,12 @@ var SurveyController = /** @class */ (function () {
     };
     SurveyController.getSurveyFormById = function (req, res) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var formId, surveyForm, e_2;
+            var surveyForm, e_2;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        formId = req.params.formId;
-                        return [4 /*yield*/, Survey_1.SurveyModel.findById(formId)];
+                        return [4 /*yield*/, Survey_1.SurveyModel.findById(req.params.formId)];
                     case 1:
                         surveyForm = _a.sent();
                         if (!surveyForm) {
@@ -1007,7 +1006,7 @@ var SurveyController = /** @class */ (function () {
                         else {
                             res.status(200).send({
                                 code: 0,
-                                message: "success",
+                                message: "Successfully Fetched Survey Form",
                                 data: surveyForm,
                             });
                         }
@@ -1058,7 +1057,6 @@ var SurveyController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        console.log("get");
                         return [4 /*yield*/, Survey_1.SurveyModel.find({})];
                     case 1:
                         forms = _a.sent();
@@ -1066,10 +1064,13 @@ var SurveyController = /** @class */ (function () {
                             title: e.title,
                             formId: e._id,
                             completed: e.completed,
+                            author: e.author.username,
+                            description: e.description,
                             createdDate: e._id.getTimestamp(),
                         }); });
                         rs.status(200).send({
                             code: 0,
+                            message: "Successfully Fetched Recent Forms",
                             data: strippedRecentForms,
                         });
                         return [3 /*break*/, 3];
@@ -1087,31 +1088,28 @@ var SurveyController = /** @class */ (function () {
     };
     SurveyController.createSurveyForm = function (req, res) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var formData, resSurvey, e_5;
+            var resSurvey, e_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        formData = req.body;
-                        _a.label = 1;
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, Survey_1.SurveyModel.create(req.body)];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, Survey_1.SurveyModel.create(formData)];
-                    case 2:
                         resSurvey = _a.sent();
                         res.status(200).send({
                             code: 0,
-                            message: "Success",
+                            message: "Successful Create New Survey",
                             data: resSurvey,
                         });
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 3];
+                    case 2:
                         e_5 = _a.sent();
                         res.status(500).send({
                             code: 1,
                             message: e_5.message,
                         });
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -1219,7 +1217,9 @@ var SurveyController = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         clientSurveyId = req.params.clientSurveyId;
-                        return [4 /*yield*/, Survey_1.ClientSurveyModel.find({ _id: clientSurveyId })];
+                        return [4 /*yield*/, Survey_1.ClientSurveyModel.find({
+                                _id: clientSurveyId,
+                            })];
                     case 1:
                         foundClientSurvey = _a.sent();
                         res.status(200).send({
@@ -1242,15 +1242,12 @@ var SurveyController = /** @class */ (function () {
     };
     SurveyController.updateSurveyForm = function (req, res) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var formId, surveyForm, e_10;
+            var e_10;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        formId = req.params.formId;
-                        surveyForm = req.body;
-                        console.log(surveyForm);
-                        return [4 /*yield*/, Survey_1.SurveyModel.findByIdAndUpdate(formId, surveyForm)];
+                        return [4 /*yield*/, Survey_1.SurveyModel.findByIdAndUpdate(req.params.formId, req.body)];
                     case 1:
                         _a.sent();
                         res.status(200).send({
@@ -1289,8 +1286,8 @@ exports.default = SurveyController;
 Object.defineProperty(exports, "__esModule", { value: true });
 var http = __webpack_require__(/*! http */ "http");
 var server_1 = __webpack_require__(/*! ./server */ "./src/server.ts");
-var PORT = Object({"BUILD_TARGET":"server"}).PORT || 3000;
-var IP = Object({"BUILD_TARGET":"server"}).IP || "localhost";
+var PORT = Object({"BUILD_TARGET":"development"}).PORT || 3000;
+var IP = Object({"BUILD_TARGET":"development"}).IP || "localhost";
 var LOG = function () {
     return console.log("Server is listening... " + (IP || "localhost") + ":" + PORT);
 }; // tslint:disable-line
@@ -1299,10 +1296,13 @@ var currentApp = server_1.default;
 server.listen(PORT, IP, LOG);
 if (true) {
     if (true) {
-        module.hot.accept(/*! ./server.ts */ "./src/server.ts", function(__WEBPACK_OUTDATED_DEPENDENCIES__) { (function () {
+        module.hot.accept(/*! ./server */ "./src/server.ts", function(__WEBPACK_OUTDATED_DEPENDENCIES__) { (function () {
             server.removeListener("request", currentApp);
-            server.on("request", server_1.default);
-            currentApp = server_1.default;
+            Promise.resolve().then(function () { return __webpack_require__(/*! ./server */ "./src/server.ts"); }).then(function (_a) {
+                var nextApp = _a.default;
+                currentApp = nextApp;
+                server.on("request", currentApp);
+            });
         })(__WEBPACK_OUTDATED_DEPENDENCIES__); });
     }
 }
@@ -1364,33 +1364,6 @@ exports.ClientSurveyModel = ClientSurveyModel;
 
 /***/ }),
 
-/***/ "./src/routes/routeClientSurvey.ts":
-/*!*****************************************!*\
-  !*** ./src/routes/routeClientSurvey.ts ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var surveyController_1 = __webpack_require__(/*! ../controllers/surveyController */ "./src/controllers/surveyController.ts");
-var routeClientSurvey = __webpack_require__(/*! express */ "express").Router();
-var jsonParser = __webpack_require__(/*! express */ "express").json();
-// READ
-routeClientSurvey
-    .route("/")
-    .get(surveyController_1.default.getAllSubmittedClientSurveyForms)
-    .post(jsonParser, surveyController_1.default.submitClientSurvey);
-routeClientSurvey
-    .route("/:clientSurveyId")
-    .get(surveyController_1.default.getClientSurveyFormById)
-    .put(jsonParser, surveyController_1.default.submitClientSurvey);
-exports.default = routeClientSurvey;
-
-
-/***/ }),
-
 /***/ "./src/routes/routeSurvey.ts":
 /*!***********************************!*\
   !*** ./src/routes/routeSurvey.ts ***!
@@ -1409,11 +1382,11 @@ routeSurvey
     .route("/")
     .get(surveyController_1.default.getAllSurveyForms)
     .post(jsonParser, surveyController_1.default.createSurveyForm);
+routeSurvey.route("/recent").get(surveyController_1.default.getAllRecentForms);
 routeSurvey
-    .route("/:formId")
+    .route("/form/:formId")
     .get(surveyController_1.default.getSurveyFormById)
-    .post(jsonParser, surveyController_1.default.updateSurveyForm);
-routeSurvey.route("/recent-forms").get(surveyController_1.default.getAllRecentForms);
+    .put(jsonParser, surveyController_1.default.updateSurveyForm);
 exports.default = routeSurvey;
 
 
@@ -1436,7 +1409,7 @@ routeTest.get("/clearDB", surveyController_1.default.clearDB);
 routeTest.get("/remove", surveyController_1.default.clearAllClientForms);
 routeTest.get("/", function (req, res) {
     res.json({
-        message: "api is running"
+        message: "api is running",
     });
 });
 exports.default = routeTest;
@@ -1458,7 +1431,7 @@ var express = __webpack_require__(/*! express */ "express");
 var MgConfig_1 = __webpack_require__(/*! ./controllers/MgConfig */ "./src/controllers/MgConfig.ts");
 var headerController_1 = __webpack_require__(/*! ./controllers/headerController */ "./src/controllers/headerController.ts");
 var routeSurvey_1 = __webpack_require__(/*! ./routes/routeSurvey */ "./src/routes/routeSurvey.ts");
-var routeClientSurvey_1 = __webpack_require__(/*! ./routes/routeClientSurvey */ "./src/routes/routeClientSurvey.ts");
+// import routeClientSurvey from "./routes/routeClientSurvey";
 var routeTest_1 = __webpack_require__(/*! ./routes/routeTest */ "./src/routes/routeTest.ts");
 // import routePeakvn from "./routes/routePeakvn";
 var app = express();
@@ -1468,7 +1441,7 @@ MgConfig_1.default.mgConnect();
 app.use(headerController_1.customCORS);
 // USE ROUTES
 app.use("/survey", routeSurvey_1.default);
-app.use("/client-survey", routeClientSurvey_1.default);
+// app.use("/client-survey", routeClientSurvey);
 app.use("/test", routeTest_1.default);
 // app.use("/peak-vn/ecsite", routePeakvn);
 app.get("/", function (rq, rs) {

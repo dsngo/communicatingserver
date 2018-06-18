@@ -9,11 +9,11 @@ routeSurvey
   .get(SurveyController.getAllSurveyForms)
   .post(jsonParser, SurveyController.createSurveyForm);
 
-routeSurvey
-  .route("/:formId")
-  .get(SurveyController.getSurveyFormById)
-  .post(jsonParser, SurveyController.updateSurveyForm);
+routeSurvey.route("/recent").get(SurveyController.getAllRecentForms);
 
-routeSurvey.route("/recent-forms").get(SurveyController.getAllRecentForms);
+routeSurvey
+  .route("/form/:formId")
+  .get(SurveyController.getSurveyFormById)
+  .put(jsonParser, SurveyController.updateSurveyForm);
 
 export default routeSurvey;

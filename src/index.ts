@@ -12,10 +12,12 @@ let currentApp = app;
 server.listen(PORT, IP, LOG);
 if (process.env.NODE_ENV === "development") {
   if (module.hot) {
-    module.hot.accept("./server.ts", () => {
+    module.hot.accept("./server", () => {
       server.removeListener("request", currentApp);
-      server.on("request", app);
-      currentApp = app;
+      import("./server").then(({ default: nextApp }) => {
+        currentApp = nextApp;
+        server.on("request", currentApp);
+      });
     });
   }
 }

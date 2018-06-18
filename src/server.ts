@@ -2,7 +2,7 @@ import * as express from "express";
 import MgConfig from "./controllers/MgConfig";
 import { customCORS } from "./controllers/headerController";
 import routeSurvey from "./routes/routeSurvey";
-import routeClientSurvey from "./routes/routeClientSurvey";
+// import routeClientSurvey from "./routes/routeClientSurvey";
 import routeTest from "./routes/routeTest";
 // import routePeakvn from "./routes/routePeakvn";
 
@@ -14,7 +14,7 @@ app.use(customCORS);
 
 // USE ROUTES
 app.use("/survey", routeSurvey);
-app.use("/client-survey", routeClientSurvey);
+// app.use("/client-survey", routeClientSurvey);
 app.use("/test", routeTest);
 // app.use("/peak-vn/ecsite", routePeakvn);
 

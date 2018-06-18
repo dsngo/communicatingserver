@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { SurveyModel, ClientSurveyModel } from "../models/Survey";
 
 export default class SurveyController {
-  constructor() {}
   static async clearDB(req: Request, res: Response) {
     try {
       await SurveyModel.remove({});
@@ -20,8 +19,7 @@ export default class SurveyController {
 
   static async getSurveyFormById(req: Request, res: Response) {
     try {
-      const formId = req.params.formId;
-      const surveyForm = await SurveyModel.findById(formId);
+      const surveyForm = await SurveyModel.findById(req.params.formId);
       if (!surveyForm) {
         res.status(200).send({
           code: -1,
@@ -30,11 +28,10 @@ export default class SurveyController {
       } else {
         res.status(200).send({
           code: 0,
-          message: "success",
+          message: "Successfully Fetched Survey Form",
           data: surveyForm,
         });
       }
-
     } catch (e) {
       res.status(500).send({
         code: -4,
@@ -60,16 +57,18 @@ export default class SurveyController {
 
   static async getAllRecentForms(rq: Request, rs: Response) {
     try {
-      console.log("get");
       const forms = await SurveyModel.find({});
       const strippedRecentForms = forms.map((e: any) => ({
         title: e.title,
         formId: e._id,
         completed: e.completed,
+        author: e.author.username,
+        description: e.description,
         createdDate: e._id.getTimestamp(),
       }));
       rs.status(200).send({
         code: 0,
+        message: "Successfully Fetched Recent Forms",
         data: strippedRecentForms,
       });
     } catch (e) {
@@ -80,12 +79,11 @@ export default class SurveyController {
     }
   }
   static async createSurveyForm(req: Request, res: Response) {
-    const formData = req.body;
     try {
-      const resSurvey = await SurveyModel.create(formData);
+      const resSurvey = await SurveyModel.create(req.body);
       res.status(200).send({
         code: 0,
-        message: "Success",
+        message: "Successful Create New Survey",
         data: resSurvey,
       });
     } catch (e) {
@@ -138,7 +136,9 @@ export default class SurveyController {
           message: "Update Client Survey Success",
         });
       } else {
-        const responseCreated = await ClientSurveyModel.create(clientSurveyData);
+        const responseCreated = await ClientSurveyModel.create(
+          clientSurveyData,
+        );
         res.status(200).send({
           code: 0,
           message: "Create Client Survey Success",
@@ -155,7 +155,9 @@ export default class SurveyController {
   static async getClientSurveyFormById(req: Request, res: Response) {
     try {
       const clientSurveyId = req.params.clientSurveyId;
-      const foundClientSurvey = await ClientSurveyModel.find({ _id: clientSurveyId });
+      const foundClientSurvey = await ClientSurveyModel.find({
+        _id: clientSurveyId,
+      });
       res.status(200).send({
         code: 0,
         data: foundClientSurvey,
@@ -170,10 +172,7 @@ export default class SurveyController {
   }
   static async updateSurveyForm(req: Request, res: Response) {
     try {
-      const formId = req.params.formId;
-      const surveyForm = req.body;
-      console.log(surveyForm);
-      await SurveyModel.findByIdAndUpdate(formId, surveyForm);
+      await SurveyModel.findByIdAndUpdate(req.params.formId, req.body);
       res.status(200).send({
         code: 0,
         message: "Update Survey Form Success",
