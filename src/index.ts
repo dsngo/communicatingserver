@@ -4,9 +4,9 @@ import app from "./server";
 declare const module: any;
 
 const PORT: any = process.env.PORT || 3000;
-const IP: any = process.env.IP || "localhost";
+const IP: any = process.env.IP || "0.0.0.0";
 const LOG = () =>
-  console.log(`Server is listening... ${IP || "localhost"}:${PORT}`); // tslint:disable-line
+  console.log(`Server is listening... ${IP || "0.0.0.0"}:${PORT}`); // tslint:disable-line
 const server = http.createServer(app as any);
 let currentApp = app;
 server.listen(PORT, IP, LOG);
