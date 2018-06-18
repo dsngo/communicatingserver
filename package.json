@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/index.js",
-    "preheroku-postbuild": "rm -rf dist",
     "heroku-postbuild": "webpack -p --progress --env.production",
+    "predeploy": "rm -rf dist",
     "deploy": "git add . & git commit -am \"heroku deploy\" & git push heroku master & heroku open",
     "lint": "tslint -p . --type-check -t stylish",
     "g:commit": "git add . & git commit -m ",
