@@ -1,43 +1,42 @@
-const { join } = require('path');
-const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
-const StartServerPlugin = require('start-server-webpack-plugin');
+const { join } = require("path");
+const webpack = require("webpack");
+const nodeExternals = require("webpack-node-externals");
+const StartServerPlugin = require("start-server-webpack-plugin");
 
 // Initial configurations
 const PATH = {
-  dist: join(__dirname, 'dist'),
-  src: join(__dirname, 'src'),
-  root: join(__dirname, ''),
+  dist: join(__dirname, "dist"),
+  src: join(__dirname, "src"),
+  root: join(__dirname, ""),
 };
-const developmentPort = 4000;
 
 module.exports = (env = {}) => {
-  const devtool = !env.production && 'source-map';
+  const devtool = !env.production && "source-map";
   const stats = {
     colors: true,
     reasons: true,
     assets: true,
     errorDetails: true,
   };
-  const extensions = ['.ts', '.tsx', '.css', '.scss', '.js', '.json'];
+  const extensions = [".ts", ".tsx", ".css", ".scss", ".js", ".json"];
   // Typescript compiling configurations
   const tsBundleConfig = {
-    target: 'node', //IMPORTANT TO PRESERVE PROCESS.ENV VARIABLES
+    target: "node", //IMPORTANT TO PRESERVE PROCESS.ENV VARIABLES
     context: PATH.root,
     entry: {
-      index: ['./src/index'],
+      index: ["webpack/hot/poll?1000", "./src/index.ts"],
     },
     output: {
       path: PATH.dist,
-      filename: '[name].js',
-      publicPath: '/',
+      filename: "[name].js",
+      publicPath: "/",
       pathinfo: true,
     },
-    mode: 'development',
+    mode: env.production ? "production" : "development",
     stats,
     devtool,
-    watch: true,
-    externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+    watch: !env.production,
+    externals: [nodeExternals({ whitelist: ["webpack/hot/poll?1000"] })],
     resolve: { extensions },
     module: {
       rules: [
@@ -46,45 +45,34 @@ module.exports = (env = {}) => {
           include: PATH.src,
           use: [
             {
-              loader: 'ts-loader',
+              loader: "ts-loader",
             },
           ],
         },
       ],
     },
     plugins: [
-      new StartServerPlugin('index.js'),
+      new StartServerPlugin("index.js"),
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
-        'process.env': {
-          BUILD_TARGET: JSON.stringify('development'),
-        },
+        'process.env.NODE_ENV': '"development"',
       }),
     ],
   };
-  // Webpack configurations
-  if (!env.production)
-    tsBundleConfig.entry.index.unshift('webpack/hot/poll?1000');
+
   if (env.production) {
-    delete tsBundleConfig.devtool;
     delete tsBundleConfig.output.pathinfo;
-    tsBundleConfig.watch = false;
+    delete tsBundleConfig.devtool;
+    tsBundleConfig.entry.index.shift();
+    tsBundleConfig.stats = "normal";
     tsBundleConfig.externals = [nodeExternals()];
-    tsBundleConfig.output = {
-      path: PATH.dist,
-      filename: '[name].js',
-      publicPath: '/',
-    };
-    tsBundleConfig.stats = 'normal';
     tsBundleConfig.plugins = [
       new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-        },
+        "process.env.NODE_ENV": '"production"',
       }),
-    ]
+    ];
   }
   const config = [tsBundleConfig];
   return config;
