@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { SurveyModel, ClientSurveyModel } from "../models/Survey";
+import { Types } from "mongoose";
 
 export default class SurveyController {
   static async clearDB(req: Request, res: Response) {
@@ -17,54 +18,16 @@ export default class SurveyController {
     }
   }
 
-  static async getSurveyFormById(req: Request, res: Response) {
-    try {
-      const surveyForm = await SurveyModel.findById(req.params.formId);
-      if (!surveyForm) {
-        res.status(200).send({
-          code: -1,
-          message: "Survey not found",
-        });
-      } else {
-        res.status(200).send({
-          code: 0,
-          message: "Successfully Fetched Survey Form",
-          data: surveyForm,
-        });
-      }
-    } catch (e) {
-      res.status(500).send({
-        code: -4,
-        message: e.data,
-      });
-    }
-  }
-
-  static async getAllSurveyForms(req: Request, res: Response) {
-    try {
-      const allSurveyForms = await SurveyModel.find({});
-      res.status(200).send({
-        code: 0,
-        data: allSurveyForms,
-      });
-    } catch (e) {
-      res.status(500).send({
-        code: -1,
-        message: e.message,
-      });
-    }
-  }
-
   static async getAllRecentForms(rq: Request, rs: Response) {
     try {
       const forms = await SurveyModel.find({});
       const strippedRecentForms = forms.map((e: any) => ({
         title: e.title,
-        formId: e._id,
+        id: e._id,
         completed: e.completed,
         author: e.author.username,
         description: e.description,
-        createdDate: e._id.getTimestamp(),
+        createdDate: e._id.getTimestamp(),        
       }));
       rs.status(200).send({
         code: 0,
@@ -78,17 +41,83 @@ export default class SurveyController {
       });
     }
   }
+
+  static async getAllSurveyForms(req: Request, res: Response) {
+    try {
+      const surveyForms = await SurveyModel.find({});
+      res.status(200).send({
+        code: 0,
+        data: surveyForms,
+      });
+    } catch (e) {
+      res.status(500).send({
+        code: -1,
+        message: e.message,
+      });
+    }
+  }
+
   static async createSurveyForm(req: Request, res: Response) {
     try {
       const resSurvey = await SurveyModel.create(req.body);
       res.status(200).send({
         code: 0,
         message: "Successful Create New Survey",
-        data: resSurvey,
+        data: resSurvey._id,
       });
     } catch (e) {
       res.status(500).send({
         code: 1,
+        message: e.message,
+      });
+    }
+  }
+
+  static async getSurveyFormById(req: Request, res: Response) {
+    try {
+      const check = Types.ObjectId.isValid(req.params.formId);
+      if (!check) {
+        return res.status(200).send({
+          code: 0,
+          message: "Please Create A New Form",
+          data: null,
+        });
+      }
+      const form = await SurveyModel.findById(req.params.formId);
+      if (!form) {
+        res.status(200).send({
+          code: -1,
+          message: "Survey not found",
+        });
+      } else {
+        res.status(200).send({
+          code: 0,
+          message: "Successfully Fetched Survey Form",
+          data: form,
+        });
+      }
+    } catch (e) {
+      res.status(500).send({
+        code: -4,
+        message: e.data,
+      });
+    }
+  }
+
+  static async updateSurveyForm(req: Request, res: Response) {
+    try {
+      await SurveyModel.findByIdAndUpdate(req.params.formId, {
+        ...req.body,
+        lastUpdated: new Date().toISOString(),
+      });
+      res.status(200).send({
+        code: 0,
+        message: "Update Survey Form Success",
+        data: req.params.formId,
+      });
+    } catch (e) {
+      res.status(200).send({
+        code: -1,
         message: e.message,
       });
     }
@@ -165,20 +194,6 @@ export default class SurveyController {
       });
     } catch (e) {
       res.status(500).send({
-        code: -1,
-        message: e.message,
-      });
-    }
-  }
-  static async updateSurveyForm(req: Request, res: Response) {
-    try {
-      await SurveyModel.findByIdAndUpdate(req.params.formId, req.body);
-      res.status(200).send({
-        code: 0,
-        message: "Update Survey Form Success",
-      });
-    } catch (e) {
-      res.status(200).send({
         code: -1,
         message: e.message,
       });

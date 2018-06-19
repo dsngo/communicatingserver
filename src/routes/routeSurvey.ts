@@ -3,6 +3,7 @@ const jsonParser = require("express").json();
 const routeSurvey = require("express").Router();
 
 // READ
+// route /survey
 
 routeSurvey
   .route("/")

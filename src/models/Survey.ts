@@ -14,6 +14,7 @@ const SurveySchema = new Schema({
   contents: [SchemaTypes.Mixed],
   isDeleted: Boolean,
   completed: Boolean, // true: To enable client survey form.
+  lastUpdated: String,
 });
 
 const SurveyModel = model("Survey", SurveySchema);
@@ -26,17 +27,18 @@ const ClientSurveySchema = new Schema({
     },
     username: String,
   },
-  clientInfo: {
-    firstName: String,
-    lastName: String,
-    email: String,
-    phone: Number,
-    address: String,
-    gender: String,
-  },
-  surveyId: String,
+
+  firstName: String,
+  lastName: String,
+  email: String,
+  phone: Number,
+  address: String,
+  gender: String,
+
+  refId: String,
   contents: [SchemaTypes.Mixed],
   completed: Boolean, // true/false: false for editing, true to submit form
+  lastUpdated: String,
 });
 
 const ClientSurveyModel = model("ClientSurvey", ClientSurveySchema);
