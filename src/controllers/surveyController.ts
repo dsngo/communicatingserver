@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { SurveyModel, ClientSurveyModel } from "../models/Survey";
 import { Types } from "mongoose";
-
+import { UserModel } from "../models/User";
 export default class SurveyController {
   static async clearDB(req: Request, res: Response) {
     try {
@@ -17,22 +17,92 @@ export default class SurveyController {
       });
     }
   }
+  static async createUser(rq: Request, rs: Response) {
+    try {
+      const newUser = {
+        username: "danieltest123",
+        password: "danieltest123",
+        email: "abc@123.com",
+        phone: "0909090909",
+      };
+      const oldUser = await UserModel.findOne({ username: newUser.username });
+      if (oldUser) return rs.send(oldUser);
+      const user = await UserModel.create(newUser);
+      rs.status(200).send({
+        code: 0,
+        message: "Successful Create New User",
+        data: user,
+      });
+    } catch (e) {
+      rs.status(500).send({
+        code: -1,
+        message: e.message,
+      });
+    }
+  }
+  static async authenticateUser(rq: Request, rs: Response) {
+    try {
+      const user: any = await UserModel.findOne({ username: rq.body.username });
+      if (!user) {
+        return rs.status(200).send({
+          code: 0,
+          message: "Authentication Failed",
+        });
+      }
+      if (user.password !== rq.body.password) {
+        return rs.status(200).send({
+          code: 0,
+          message: "Wrong password",
+        });
+      }
+      rs.status(200).send({
+        code: 0,
+        message: "Successfully Logged In",
+        data: true,
+      });
+    } catch (e) {
+      rs.status(500).send({
+        code: -1,
+        message: e.message,
+      });
+    }
+  }
 
   static async getAllRecentForms(rq: Request, rs: Response) {
     try {
       const forms = await SurveyModel.find({});
-      const strippedRecentForms = forms.map((e: any) => ({
-        title: e.title,
-        id: e._id,
-        completed: e.completed,
-        author: e.author.username,
-        description: e.description,
-        createdDate: e._id.getTimestamp(),        
-      }));
+      const strippedRecentForms = forms
+        .filter(e => !e.isDeleted)
+        .map((e: any) => ({
+          title: e.title,
+          id: e._id,
+          completed: e.completed,
+          author: e.author.username,
+          description: e.description,
+          createdDate: e._id.getTimestamp(),
+        }));
       rs.status(200).send({
         code: 0,
         message: "Successfully Fetched Recent Forms",
         data: strippedRecentForms,
+      });
+    } catch (e) {
+      rs.status(500).send({
+        code: -1,
+        message: e.message,
+      });
+    }
+  }
+
+  static async removeFormById(rq: Request, rs: Response) {
+    try {
+      const doc: any = await SurveyModel.findByIdAndUpdate(rq.params.formId, {
+        isDeleted: true,
+      });
+      if (!doc) throw new Error("Form not Found");
+      rs.status(200).send({
+        code: 0,
+        message: `Successfully Remove Form ${doc._id}`,
       });
     } catch (e) {
       rs.status(500).send({
@@ -157,7 +227,6 @@ export default class SurveyController {
   static async submitClientSurvey(req: Request, res: Response) {
     try {
       const { clientSurveyId, ...clientSurveyData } = req.body;
-      console.log(clientSurveyData);
       if (clientSurveyId) {
         await SurveyModel.findByIdAndUpdate(clientSurveyId, clientSurveyData);
         res.status(200).send({

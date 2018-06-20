@@ -4,7 +4,9 @@ const UserSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    phone: Number,
+    phone: String,
 })
 
-export default model("User", UserSchema)
+const UserModel = model("User", UserSchema)
+
+export { UserModel }

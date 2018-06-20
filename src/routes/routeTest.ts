@@ -10,4 +10,7 @@ routeTest.get("/", (req: any, res: any) => {
   });
 });
 
+routeTest.get("/create-user", SurveyController.createUser)
+
+
 export default routeTest;
