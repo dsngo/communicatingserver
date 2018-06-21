@@ -58,6 +58,7 @@ export default class SurveyController {
         });
       }
       rs.status(200).send({
+        user,
         code: 0,
         message: "Successfully Logged In",
         data: "LOGIN_SUCCESS",
