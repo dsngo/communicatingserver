@@ -47,18 +47,20 @@ export default class SurveyController {
         return rs.status(200).send({
           code: 0,
           message: "Authentication Failed",
+          data: "LOGIN_FAILED"
         });
       }
       if (user.password !== rq.body.password) {
         return rs.status(200).send({
           code: 0,
           message: "Wrong password",
+          data: "LOGIN_FAILED"
         });
       }
       rs.status(200).send({
         code: 0,
         message: "Successfully Logged In",
-        data: true,
+        data: "LOGIN_SUCCESS",
       });
     } catch (e) {
       rs.status(500).send({
