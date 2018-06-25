@@ -42,21 +42,27 @@ export default class SurveyController {
   }
   static async authenticateUser(rq: Request, rs: Response) {
     try {
-      const user: any = await UserModel.findOne({ username: rq.body.username });
-      if (!user) {
+      const foundUser: any = await UserModel.findOne({
+        username: rq.body.username,
+      });
+      if (!foundUser) {
         return rs.status(200).send({
           code: 0,
           message: "Authentication Failed",
-          data: "LOGIN_FAILED"
+          data: "LOGIN_FAILED",
         });
       }
-      if (user.password !== rq.body.password) {
+      if (foundUser.password !== rq.body.password) {
         return rs.status(200).send({
           code: 0,
           message: "Wrong password",
-          data: "LOGIN_FAILED"
+          data: "LOGIN_FAILED",
         });
       }
+      const user = {
+        id: foundUser._id,
+        username: foundUser.username,
+      };
       rs.status(200).send({
         user,
         code: 0,
@@ -229,22 +235,32 @@ export default class SurveyController {
   // END OF TEST
   static async submitClientSurvey(req: Request, res: Response) {
     try {
-      const { clientSurveyId, ...clientSurveyData } = req.body;
-      if (clientSurveyId) {
-        await SurveyModel.findByIdAndUpdate(clientSurveyId, clientSurveyData);
-        res.status(200).send({
+      if (req.method === "POST") {
+        console.log(req.body)
+        const newClientSurvey = await ClientSurveyModel.create(req.body);
+        // if (!newClientSurvey) throw new Error("Cannot create new Survey");
+        return res.status(200).send({
           code: 0,
-          message: "Update Client Survey Success",
-        });
-      } else {
-        const responseCreated = await ClientSurveyModel.create(
-          clientSurveyData,
-        );
-        res.status(200).send({
-          code: 0,
-          message: "Create Client Survey Success",
+          message: "Successfully Created Client Survey",
+          data: newClientSurvey,
         });
       }
+      if (req.method === "PUT") {
+        const { clientId, clientSurvey } = req.body;
+        console.log(req.body)
+        const updatedClientSurvey = await ClientSurveyModel.findByIdAndUpdate(
+          clientId,
+          clientSurvey,
+          { new: true, upsert: true },
+        );
+        // if (!updatedClientSurvey) throw new Error("Cannot edit Survey");
+        return res.status(200).send({
+          code: 0,
+          message: "Successfully Edited Client Survey",
+          data: updatedClientSurvey,
+        });
+      }
+      res.send("Yo, nice find!");
     } catch (e) {
       res.status(500).send({
         code: -1,
@@ -252,17 +268,15 @@ export default class SurveyController {
       });
     }
   }
-
   static async getClientSurveyFormById(req: Request, res: Response) {
     try {
-      const clientSurveyId = req.params.clientSurveyId;
-      const foundClientSurvey = await ClientSurveyModel.find({
-        _id: clientSurveyId,
+      const foundClientSurvey = await ClientSurveyModel.findOne({
+        _id: req.params.clientId,
       });
       res.status(200).send({
         code: 0,
+        message: "Successfully found client survey.",
         data: foundClientSurvey,
-        message: "Found Client Survey",
       });
     } catch (e) {
       res.status(500).send({

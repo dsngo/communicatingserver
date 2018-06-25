@@ -10,9 +10,19 @@ routeSurvey
   .get(SurveyController.getAllSurveyForms)
   .post(jsonParser, SurveyController.createSurveyForm);
 
-routeSurvey.route("/authenticate").post(jsonParser, SurveyController.authenticateUser)
+routeSurvey
+  .route("/authenticate")
+  .post(jsonParser, SurveyController.authenticateUser);
 
 routeSurvey.route("/recent").get(SurveyController.getAllRecentForms);
+
+routeSurvey
+  .route("/client")
+  .get(SurveyController.submitClientSurvey)
+  .post(jsonParser, SurveyController.submitClientSurvey)
+  .put(jsonParser, SurveyController.submitClientSurvey);
+
+routeSurvey.route("/client/:clientId").get(SurveyController.getClientSurveyFormById)
 
 routeSurvey
   .route("/form/:formId")
