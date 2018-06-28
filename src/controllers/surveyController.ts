@@ -273,6 +273,7 @@ export default class SurveyController {
       const foundClientSurvey = await ClientSurveyModel.findOne({
         _id: req.params.clientId,
       });
+      if (!foundClientSurvey) return;
       res.status(200).send({
         code: 0,
         message: "Successfully found client survey.",

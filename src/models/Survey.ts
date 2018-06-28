@@ -32,7 +32,7 @@ const ClientSurveySchema = new Schema({
   firstName: String,
   lastName: String,
   email: String,
-  phone: Number,
+  phone: String,
   address: String,
   gender: String,
 
